@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Update Menuss</h2>
+
+
+<form method="post" action="{% url 'update_menu' items.id %}">
+    {% csrf_token %}
+    
+    <label for="name">Item name</label>
+    <input type="text" name="name" >
+    
+    <label for="description">Description</label>
+    <input type="text" name="description">
+    
+    <label for="price">Price</label>
+    <input type="text" name="price" >
+    
+    <label for="is_veg">Vegetarian:</label>
+    <input type="checkbox" name="is_veg" {% if item.is_veg %}checked{% endif %}>
+    
+    <label for="picture">Image URL:</label>
+    <input type="url" name="picture">
+    
+    <button type="submit">Update Item</button>
+</form>
+<hr>
+
+</body>
+</html>

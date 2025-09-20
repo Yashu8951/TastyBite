@@ -6,11 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="">
+    <form method="post" action="{%url 'signin' %}">
+          {% csrf_token %}
         <label >username</label>:
-        <input type="text">
+        <input type="text" name="username">
         <label for="">Password</label>
-        <input type="text">
+        <input type="text" name="password">
         <button>Submit</button>
     </form>
 </body>

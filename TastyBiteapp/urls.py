@@ -22,5 +22,21 @@ urlpatterns = [
    path('',views.home),
    path('open_signin/',views.open_signin , name='open_signin'),
    path('open_signup/' ,views.open_signup,name='open_signup'),
-   path('signup/',views.signup ,name ='signup')
+   path('signup/',views.signup ,name ='signup'),
+   path('signin/',views.signin,name='signin'),
+   path('sigin/add_restarurant',views.addrestaruant,name='sigin/add_restarurant'),
+   path('addrestarurant',views.addrestaruants,name="addrestarurant"),
+   path('sigin/show_restaruant',views.show_restaruants,name="sigin/show_restaruant"),
+   path('open_update_restarunt/<int:restaurant_id>',views.open_update_restaurant,name='open_update_restarunt'),
+   path('updateRestaurant/<int:restaurant_id>',views.updateRestaurant,name='updateRestaurant'),
+   path('deleteRestaurant/<int:restaurant_id>',views.deleteRestaurant,name='deleteRestaurant'),
+path("showmenu/<int:restaurant_id>",views.show_menu,name="showmenu"),
+path("openadditem/<int:restaurant_id>",views.openadditem,name="openadditem"),
+path("additem/<int:restaurant_id>",views.additem,name="additem"),
+path("openupadetitem/<int:item_id>",views.open_Updatemenu,name='openupadetitem'),
+path("update_menu/<int:item_id>",views.update_menu,name='update_menu'),
+path("deleteitem/<int:item_id>",views.delete_item,name='deleteitem'),
+#custmoer
+path("show_restaruantsCustomer",views.show_restaruantsCustomer,name='show_restaruantsCustomer')
+path("showmenu/<int:restaurant_id>",views.show_men,name="showmenucustomer"),
 ]

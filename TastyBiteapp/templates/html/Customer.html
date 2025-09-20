@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant List</title>
+</head>
+<body>
+    <h1>{{username.name}}</h1>
+    <h1>Restaurant</h1>
+    <table border="1">
+        <thead>
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Cuisine</th>
+            <th>Rating</th>
+            <th>Other operations</th>
+        </thead>
+        <tbody>
+        {% for r in restaurant %}
+            <tr>
+                <td><img src="{{ r.picture }}" alt="no image" width="100"></td>
+                <td>{{ r.name }}</td>
+                <td>{{ r.cuisine }}</td>
+                <td>{{ r.rating }}</td>
+                <td>
+                    <a href="{% url 'showmenu' r.id  %}">
+                        <button type="button">showmenu Menu</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
