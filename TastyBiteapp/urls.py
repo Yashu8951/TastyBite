@@ -37,6 +37,6 @@ path("openupadetitem/<int:item_id>",views.open_Updatemenu,name='openupadetitem')
 path("update_menu/<int:item_id>",views.update_menu,name='update_menu'),
 path("deleteitem/<int:item_id>",views.delete_item,name='deleteitem'),
 #custmoer
-path("show_restaruantsCustomer",views.show_restaruantsCustomer,name='show_restaruantsCustomer')
-path("showmenu/<int:restaurant_id>",views.show_men,name="showmenucustomer"),
+path("show_restaruantsCustomer",views.show_restaruantsCustomer,name='show_restaruantsCustomer'),
+path("showmenu/<int:restaurant_id>",views.show_menuCustomer,name="showmenucustomer"),
 ]

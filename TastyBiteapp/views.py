@@ -153,4 +153,4 @@ def show_restaruantsCustomer(request):
 def show_menuCustomer(request,restaurant_id):
     restaurant = get_object_or_404(Restaurant,id=restaurant_id)
     item= Item.objects.filter(restaurant=restaurant)
-    return render(request,"html/showmenu.html",{'restaurant': restaurant,'item':item})
+    return render(request,"html/showmenucustomer.html",{'restaurant': restaurant,'item':item})
