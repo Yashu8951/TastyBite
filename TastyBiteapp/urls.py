@@ -37,6 +37,10 @@ path("openupadetitem/<int:item_id>",views.open_Updatemenu,name='openupadetitem')
 path("update_menu/<int:item_id>",views.update_menu,name='update_menu'),
 path("deleteitem/<int:item_id>",views.delete_item,name='deleteitem'),
 #custmoer
-path("show_restaruantsCustomer",views.show_restaruantsCustomer,name='show_restaruantsCustomer'),
-path("showmenu/<int:restaurant_id>",views.show_menuCustomer,name="showmenucustomer"),
+# path("show_restaruantsCustomer",views.show_restaruantsCustomer,name='show_restaruantsCustomer'),
+path("showmenucustome/<int:restaurant_id>add/<str:username>",views.show_menuCustomer,name="showmenucustomer"),
+path('add_to_cart<int:item_id>/add/<str:username>',views.add_to_cart,name='add_to_cart'),
+path('show_cart_page/<str:username>',views.show_cart_page,name="show_cart_page"),
+path("checkout/<str:username>",views.checkout,name='checkout'),
+path("orders/<str:username>",views.Orders,name='orders')
 ]

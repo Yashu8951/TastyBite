@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <h2>Your cart</h2>
+    {% if items %}
+    <table border="1">
+        <thead><tr>
+            <th>image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Total_price</th></tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+            <tr>
+                <td><img src="{{i.picture}}" alt="no image"></td>
+                <td>{{i.name}}</td>
+                <td>{{i.description}}</td>
+                <td>{{i.price}}</td>
+            </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+    <h3>Total_price:  ₹{{ total_price }} </h3>
+    <form method="get" action="{% url 'checkout' username %}">
+        <button type="submit">Checkout</button>
+    </form>
+    <a href="{% url 'showmenucustomer' items.0.restaurant.id username %}"> Back Home</a>
+    {% else %}
+    <p>Your cart is empty!</p>
+    <a href="/">Back to home</a>
+    {% endif %}
+</body>
+</html>

@@ -1,7 +1,10 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse
 from .models import Customer
-from .models import Restaurant,Item
+from .models import Restaurant,Item,Cart
+from django.contrib import messages 
+import razorpay
+from django.conf import settings
 
 def home(request):
     return render(request,'html/home.html')
@@ -37,17 +40,16 @@ def signin(request):
     if request.method == "POST":
         username =request.POST.get("username")
         password = request.POST.get("password")
-    
-        user = Customer.objects.filter(username =username,password=password)
-
-        if user:
-            if username == "Admin":
-                return render(request,'html/Admin.html')
-            else:
-                return redirect('show_restaruantsCustomer')
+    try:
+        Customer.objects.filter(username =username,password=password)
+        if username == "Admin":
+            return render(request,"html/Admin.html")
         else:
-            return render(request,'html/error.html')
-
+            restaurant =Restaurant.objects.all()
+            return render(request,"html/Customer.html",{"restaurant":restaurant,'username':username})
+    except Customer.DoesNotExist:
+            return render(request, 'delivery/fail.html')
+            return HttpResponse("Invalid request")   
 
 def addrestaruant(request):
     return render(request,'html\Add_restarurant.html')
@@ -145,12 +147,85 @@ def delete_item(request,item_id):
     return redirect("showmenu",restaurant_id=item.restaurant.id)
 
 # custmoer 
-def show_restaruantsCustomer(request):
-    restaurant = Restaurant.objects.all();
-    return render(request,'html/Customer.html',{'restaurant': restaurant})
+# def show_restaruantsCustomer(request):
+#     restaurant = Restaurant.objects.all();
+#     customer =Customer.objects.all()
+#     return render(request,'html/Customer.html',{'restaurant': restaurant})
 
 
-def show_menuCustomer(request,restaurant_id):
+def show_menuCustomer(request,restaurant_id,username):
     restaurant = get_object_or_404(Restaurant,id=restaurant_id)
     item= Item.objects.filter(restaurant=restaurant)
-    return render(request,"html/showmenucustomer.html",{'restaurant': restaurant,'item':item})
+    return render(request,"html/showmenucustomer.html",{'restaurant': restaurant,'item':item,"username":username})
+
+
+def add_to_cart(request,item_id,username):
+    customer = get_object_or_404(Customer,username=username)
+    item = get_object_or_404(Item,id=item_id)
+
+    cart ,created = Cart.objects.get_or_create(customer=customer)
+
+    cart.items.add(item)
+    messages.success(request,f"{item.name} added to your cart!")
+    return redirect('showmenucustomer', restaurant_id=item.restaurant.id, username=username)
+    
+
+def show_cart_page(request,username):
+     customer = get_object_or_404(Customer,username=username)
+     cart = Cart.objects.filter(customer=customer).first()
+
+     item = cart.items.all() if cart else []
+     total_price = cart.total_price if cart else 0
+
+     return render(request , "html/cart.html", {
+         'items':item,
+         'total_price':total_price,
+         'username':username
+     })
+
+def checkout(request, username):
+    customer = get_object_or_404(Customer,username=username)
+    cart = Cart.objects.filter(customer=customer).first()
+    cart_items = cart.items.all() if cart else []
+    total_price = cart.total_price if cart else 0
+
+
+    if total_price == 0:
+        return render(request ,"html/checkout.html",{
+            'error' :"your is empty"
+
+        })
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+    order_data = {
+        'amount': int(total_price * 100),  # Amount in paisa
+        'currency': 'INR',
+        'payment_capture': '1',  # Automatically capture payment
+    }
+    order = client.order.create(data=order_data)
+
+    return render(request, 'html/checkout.html', {
+        'username': username,
+        'cart_items': cart_items,
+        'total_price': total_price,
+        'razorpay_key_id': settings.RAZORPAY_KEY_ID,
+        'order_id': order['id'],  # Razorpay order ID
+        'amount': total_price,
+    })
+
+
+def Orders(request, username):
+    customer = get_object_or_404(Customer, username=username)
+    cart = Cart.objects.filter(customer=customer).first()  # Get a single cart
+
+    cart_items = cart.items.all() if cart else []
+    total_price = cart.total_price if cart else 0  # total_price is a property, not method
+
+    if cart:
+        cart.items.clear()  # Clear items after placing order
+
+    return render(request, 'html/orders.html', {
+        'username': username,
+        'customer': customer,
+        'cart_items': cart_items,
+        'total_price': total_price,
+    })
