@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,8 @@ SECRET_KEY = 'django-insecure-1$ysy--p(cyre0f#5!1unzoz#1^cnm!2*-j=hbhp+4h_lseb4h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tastybite-2.onrender.com', 'localhost', '127.0.0.1']
+
 
 
 # Application definition
@@ -115,7 +117,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -124,3 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RAZORPAY_KEY_ID = 'rzp_test_RICMfVo0BEu89B'
 RAZORPAY_KEY_SECRET = 'N43y5iN0vPTYqWf0Cyvwvlex'
+
+
+
