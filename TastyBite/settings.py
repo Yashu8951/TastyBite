@@ -125,8 +125,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-RAZORPAY_KEY_ID = 'rzp_test_RICMfVo0BEu89B'
-RAZORPAY_KEY_SECRET = 'N43y5iN0vPTYqWf0Cyvwvlex'
+RAZORPAY_KEY_ID = 'rzp_test_RS5nUbo7IncND1'
+RAZORPAY_KEY_SECRET = '1DTANdKQT9Hr2Y5vjBW1DytC'
 
 
 
